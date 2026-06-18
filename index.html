@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#790000" />
+  <title>体医融合 · 未登录访问入口</title>
+  <style>
+    :root {
+      --red: #790000;
+      --red-dark: #690000;
+      --blue: #3f97ee;
+      --orange: #f3a42d;
+      --text: #2f2f2f;
+      --muted: #8e8e8e;
+      --line: #ead7d7;
+      --soft: #fff9f1;
+      --green: #2da66f;
+      --shadow: 0 18px 46px rgba(86, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #fff;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 38%, rgba(243, 164, 45, 0.1), transparent 30vw),
+        radial-gradient(circle at 88% 64%, rgba(121, 0, 0, 0.08), transparent 32vw),
+        #fff;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 84px auto auto -110px;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 42px solid rgba(243, 164, 45, 0.07);
+      pointer-events: none;
+      animation: softBreath 8s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .topbar {
+      min-height: 84px;
+      background: var(--red);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 28px 0 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      margin-left: 2px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.14);
+      flex: 0 0 auto;
+    }
+
+    .logo img {
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-fallback {
+      width: 54px;
+      height: 40px;
+      position: relative;
+      color: #2eb7d6;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .logo-fallback::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 26px;
+      height: 26px;
+      border: 4px solid #2cb6d2;
+      border-right-color: transparent;
+      border-radius: 50%;
+      transform: rotate(-25deg);
+    }
+
+    .logo-fallback::after {
+      content: "体医";
+      position: absolute;
+      right: 0;
+      top: 13px;
+      color: #2b9cc2;
+      white-space: nowrap;
+    }
+
+    .brand-title {
+      font-size: clamp(22px, 2.2vw, 31px);
+      font-weight: 800;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 0 0 auto;
+    }
+
+    .read-btn,
+    .login-status {
+      min-height: 56px;
+      border-radius: 4px;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .read-btn {
+      min-width: 84px;
+      padding: 0 20px;
+      background: var(--blue);
+      font-size: 23px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    }
+
+    .login-status {
+      padding: 0 22px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      font-size: 22px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .login-status:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .nav {
+      min-height: 70px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: clamp(28px, 5vw, 76px);
+      padding: 0 24px;
+      border-bottom: 1px solid #f1eeee;
+      overflow-x: auto;
+    }
+
+    .nav a {
+      color: #505050;
+      font-size: clamp(18px, 1.65vw, 25px);
+      font-weight: 600;
+      padding: 18px 0;
+      position: relative;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      height: 3px;
+      background: var(--red);
+      border-radius: 2px;
+    }
+
+    .hero {
+      min-height: calc(100vh - 278px);
+      padding: 62px 5vw 42px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      width: min(1120px, 100%);
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(320px, 460px);
+      align-items: center;
+      gap: clamp(34px, 6vw, 92px);
+      position: relative;
+    }
+
+    .hero-copy {
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-kicker {
+      color: #9d9d9d;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: #351313;
+      font-size: clamp(36px, 3.3vw, 52px);
+      line-height: 1.38;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      margin-left: 90px;
+    }
+
+    .headline-mark {
+      display: inline-block;
+      width: 110px;
+      height: 7px;
+      margin-right: 18px;
+      border-top: 2px solid #e7c9c9;
+      border-bottom: 2px solid #e7c9c9;
+      vertical-align: middle;
+    }
+
+    .hero-sub {
+      max-width: 620px;
+      margin: 18px auto 0;
+      text-align: center;
+      color: #838383;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.72;
+    }
+
+    .hero-actions {
+      margin: 34px auto 0;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .screen-btn {
+      min-height: 48px;
+      border: 0;
+      border-radius: 4px;
+      padding: 0 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .screen-btn.primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(121, 0, 0, 0.16);
+      animation: buttonBreath 3.8s ease-in-out infinite;
+    }
+
+    .screen-btn.secondary {
+      background: #fff;
+      color: var(--red);
+      border: 2px solid #e7c9c9;
+    }
+
+    .screen-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(121, 0, 0, 0.14);
+    }
+
+    .welcome {
+      position: absolute;
+      left: 5%;
+      top: 42%;
+      transform: translateY(-50%);
+      font-size: clamp(86px, 9vw, 150px);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(243, 164, 45, 0.22);
+      text-stroke: 2px rgba(243, 164, 45, 0.22);
+      letter-spacing: 8px;
+      pointer-events: none;
+      z-index: 0;
+      white-space: nowrap;
+      animation: welcomeBreath 7s ease-in-out infinite;
+    }
+
+    .feature-row {
+      margin: 76px auto 0;
+      width: min(520px, 100%);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      border-bottom: 4px solid #ddc8d0;
+      padding-bottom: 18px;
+      position: relative;
+    }
+
+    .feature-row::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -9px;
+      width: 54px;
+      height: 10px;
+      background:
+        radial-gradient(circle, #fb9d00 0 38%, transparent 39%) 0 0 / 13px 10px repeat-x;
+    }
+
+    .feature {
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      color: #777;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid var(--orange);
+      color: var(--orange);
+      display: grid;
+      place-items: center;
+      background: #fff;
+    }
+
+    .feature-icon svg {
+      width: 23px;
+      height: 23px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .visual-wrap {
+      position: relative;
+      width: min(440px, 100%);
+      margin: 0 auto;
+      min-height: 470px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-visual {
+      width: min(420px, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      position: relative;
+      transform: rotate(45deg);
+      border-radius: 34px;
+      border: 4px solid rgba(243, 164, 45, 0.64);
+      box-shadow: 14px 18px 0 rgba(243, 164, 45, 0.14);
+      overflow: hidden;
+      background: #f7eee2;
+      animation: visualBreath 6s ease-in-out infinite;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 2px solid rgba(255, 190, 80, 0.75);
+      border-radius: 24px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero-visual img {
+      width: 145%;
+      height: 145%;
+      max-width: none;
+      object-fit: cover;
+      transform: translate(-16%, -16%) rotate(-45deg);
+    }
+
+    .visual-fallback {
+      position: absolute;
+      inset: -22%;
+      display: none;
+      place-items: center;
+      background:
+        radial-gradient(circle at 28% 22%, rgba(243, 164, 45, 0.2), transparent 32%),
+        linear-gradient(145deg, #fff8ed 0%, #f7eee2 100%);
+      transform: rotate(-45deg);
+      z-index: 1;
+    }
+
+    .hero-visual.is-fallback img {
+      display: none;
+    }
+
+    .hero-visual.is-fallback .visual-fallback {
+      display: grid;
+    }
+
+    .fallback-figure {
+      position: relative;
+      width: 210px;
+      height: 210px;
+    }
+
+    .fallback-figure::before {
+      content: "";
+      position: absolute;
+      left: 86px;
+      top: 26px;
+      width: 40px;
+      height: 40px;
+      border: 6px solid var(--orange);
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(121, 0, 0, 0.08);
+    }
+
+    .fallback-figure::after {
+      content: "康复运动";
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      min-width: 104px;
+      transform: translateX(-50%);
+      padding: 7px 12px;
+      border-radius: 4px;
+      background: rgba(121, 0, 0, 0.92);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .fallback-body,
+    .fallback-arm,
+    .fallback-leg,
+    .fallback-weight {
+      position: absolute;
+      display: block;
+      border-radius: 999px;
+      background: var(--red);
+    }
+
+    .fallback-body {
+      left: 98px;
+      top: 72px;
+      width: 18px;
+      height: 72px;
+      transform: rotate(-8deg);
+    }
+
+    .fallback-arm {
+      left: 50px;
+      top: 92px;
+      width: 112px;
+      height: 12px;
+      transform: rotate(-18deg);
+      background: var(--orange);
+    }
+
+    .fallback-leg {
+      left: 69px;
+      top: 142px;
+      width: 84px;
+      height: 13px;
+      transform: rotate(28deg);
+      background: #3f97ee;
+    }
+
+    .fallback-weight {
+      left: 34px;
+      top: 79px;
+      width: 34px;
+      height: 34px;
+      border: 8px solid var(--orange);
+      background: transparent;
+      box-shadow: 112px 42px 0 -8px #fff, 112px 42px 0 0 var(--orange);
+    }
+
+    .footer {
+      min-height: 124px;
+      background: var(--red);
+      color: #fff;
+      text-align: center;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-size: clamp(18px, 1.8vw, 27px);
+      font-weight: 800;
+      line-height: 1.9;
+    }
+
+    .footer small {
+      display: block;
+      font-size: clamp(15px, 1.5vw, 23px);
+      font-weight: 700;
+    }
+
+    dialog.access-modal {
+      width: min(480px, calc(100vw - 28px));
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    dialog.access-modal::backdrop {
+      background: rgba(38, 0, 0, 0.68);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-box {
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    .modal-head {
+      min-height: 70px;
+      padding: 16px 18px 16px 24px;
+      background: var(--red);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .modal-head strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .modal-head span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 18px 24px 0;
+    }
+
+    .tab {
+      min-height: 44px;
+      border-radius: 4px;
+      background: #fff9f1;
+      border: 1px solid #ead7d7;
+      color: #6a4545;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .panel {
+      display: none;
+      padding: 22px 24px 24px;
+    }
+
+    .panel.is-active {
+      display: block;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      color: #2b1616;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid #eadede;
+      border-radius: 6px;
+      padding: 0 14px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      font-size: 16px;
+      font-weight: 700;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field input:focus {
+      border-color: rgba(121, 0, 0, 0.46);
+      box-shadow: 0 0 0 4px rgba(121, 0, 0, 0.08);
+    }
+
+    .helper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin: 3px 0 16px;
+      color: #777;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .text-link {
+      padding: 0;
+      background: transparent;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 4px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 19px;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(63, 151, 238, 0.22);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .submit-btn[disabled] {
+      cursor: progress;
+      opacity: 0.72;
+      transform: none;
+    }
+
+    .notice {
+      display: none;
+      margin-top: 15px;
+      padding: 14px;
+      border: 1px solid #ead7d7;
+      border-radius: 6px;
+      background: #fff9f1;
+      color: #5d4a4a;
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .notice.is-visible {
+      display: block;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--red);
+      font-size: 18px;
+    }
+
+    .shake {
+      animation: shake 0.32s ease;
+    }
+
+    @keyframes softBreath {
+      0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.72;
+      }
+      50% {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+    }
+
+    @keyframes welcomeBreath {
+      0%, 100% {
+        opacity: 0.82;
+        transform: translateY(-50%) scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.015);
+      }
+    }
+
+    @keyframes visualBreath {
+      0%, 100% {
+        transform: rotate(45deg) translateY(0) scale(1);
+      }
+      50% {
+        transform: rotate(45deg) translateY(-5px) scale(1.012);
+      }
+    }
+
+    @keyframes buttonBreath {
+      0%, 100% {
+        box-shadow: 0 8px 18px rgba(121, 0, 0, 0.16);
+        filter: brightness(1);
+      }
+      50% {
+        box-shadow: 0 13px 28px rgba(121, 0, 0, 0.24);
+        filter: brightness(1.04);
+      }
+    }
+
+    @keyframes barBreath {
+      0%, 100% {
+        opacity: 0.82;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes shake {
+      20%, 60% {
+        transform: translateX(-5px);
+      }
+      40%, 80% {
+        transform: translateX(5px);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar {
+        align-items: flex-start;
+        padding: 12px 14px 16px 0;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 18px;
+        gap: 10px;
+      }
+
+      .read-btn {
+        min-height: 48px;
+        min-width: 72px;
+        font-size: 18px;
+      }
+
+      .login-status {
+        min-height: 48px;
+        font-size: 18px;
+        padding: 0 16px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        min-height: auto;
+      }
+
+      .hero h1 span {
+        margin-left: 0;
+      }
+
+      .visual-wrap {
+        min-height: 390px;
+      }
+
+      .hero-visual {
+        width: min(330px, 76vw);
+      }
+
+    }
+
+    @media (max-width: 640px) {
+      body::before {
+        display: none;
+      }
+
+      .brand-title {
+        white-space: normal;
+        font-size: 21px;
+      }
+
+      .logo {
+        width: 64px;
+        height: 64px;
+      }
+
+      .logo img {
+        width: 50px;
+        height: 50px;
+      }
+
+      .hero {
+        padding-top: 42px;
+        min-height: auto;
+      }
+
+      .hero-kicker {
+        font-size: 13px;
+      }
+
+      .headline-mark {
+        width: 58px;
+        margin-right: 10px;
+      }
+
+      .welcome {
+        left: 0;
+        font-size: 70px;
+      }
+
+      .hero-actions,
+      .feature-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        display: grid;
+        width: min(320px, 100%);
+      }
+
+      .screen-btn {
+        width: 100%;
+      }
+
+      .feature-row {
+        margin-top: 44px;
+      }
+
+      .feature-row {
+        display: grid;
+      }
+
+      .visual-wrap {
+        min-height: 340px;
+      }
+
+      .helper-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .tabs,
+      .panel {
+        padding-right: 18px;
+        padding-left: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="体医融合平台">
+      <div class="logo">
+        <img src="assets/logo-tiyironghe.png" alt="体医融合 logo" onerror="this.replaceWith(document.getElementById('logoFallback').content.cloneNode(true))">
+        <template id="logoFallback"><span class="logo-fallback"></span></template>
+      </div>
+      <div class="brand-title">体医融合</div>
+    </div>
+    <div class="top-actions" aria-label="账户操作">
+      <button class="read-btn" type="button" data-open="login">选择朗读</button>
+      <button class="login-status" type="button" data-open="login">未登录，点击登录</button>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="网站导航">
+    <a class="active" href="#home">网站主页</a>
+    <a href="#intro" data-guard>项目介绍</a>
+    <a href="#report" data-guard>康复评估</a>
+    <a href="#plan" data-guard>锻炼动作库</a>
+  </nav>
+
+  <main>
+    <section id="home" class="hero" aria-label="未登录访问入口">
+      <div class="welcome">WELCOME</div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="hero-kicker">欢迎来到体医融合 · 中老年人运动健康与康复管理平台！</p>
+          <h1>
+            机构登录后使用<br />
+            <span><i class="headline-mark"></i>评估、处方与动作库</span>
+          </h1>
+          <p class="hero-sub">当前平台仅向受邀机构账号开放。请使用管理员分配的账号登录；没有账号的机构需通过邀请码提交注册申请。</p>
+
+          <div class="hero-actions" aria-label="账户入口">
+            <button class="screen-btn primary" type="button" data-open="login">登录平台</button>
+            <button class="screen-btn secondary" type="button" data-open="register">申请注册</button>
+          </div>
+
+          <div class="feature-row" aria-label="访问能力">
+            <div class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11h8M8 15h8M10 3h4l1 3h4v15H5V6h4z"/></svg>
+              </div>
+              <span>邀请准入</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.6-7-10a4.4 4.4 0 0 1 7-3.5A4.4 4.4 0 0 1 19 11c0 5.4-7 10-7 10z"/></svg>
+              </div>
+              <span>权限审核</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 17h8M7 13h10M9 9h6M5 21h14M7 3l10 18"/></svg>
+              </div>
+              <span>康复评估</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 20c4-2 5-6 5-10"/><path d="M12 10c3 1 5 3 6 6"/><path d="M9 6a3 3 0 1 0 6 0"/></svg>
+              </div>
+              <span>动作指导</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-wrap">
+          <div class="hero-visual" aria-label="老人运动照片">
+            <img src="assets/hero-elder-exercise.png" alt="老人手持哑铃进行轻量上肢运动" onerror="this.parentElement.classList.add('is-fallback')">
+            <div class="visual-fallback" aria-hidden="true">
+              <span class="fallback-figure">
+                <span class="fallback-body"></span>
+                <span class="fallback-arm"></span>
+                <span class="fallback-leg"></span>
+                <span class="fallback-weight"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      © 2024 体医融合
+      <small>联系方式：13812626074，15862376628</small>
+    </div>
+  </footer>
+
+  <dialog class="access-modal" id="accessModal" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <strong id="modalTitle">机构账号登录</strong>
+          <span id="modalDesc">请输入已开通的机构账号，系统将核验当前访问权限。</span>
+        </div>
+        <button class="close-btn" type="button" data-close aria-label="关闭">×</button>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="访问方式">
+        <button class="tab" id="loginTab" type="button" role="tab" aria-selected="true" aria-controls="loginPanel" data-tab="login">登录</button>
+        <button class="tab" id="registerTab" type="button" role="tab" aria-selected="false" aria-controls="registerPanel" data-tab="register">注册</button>
+      </div>
+
+      <section class="panel is-active" id="loginPanel" role="tabpanel" aria-labelledby="loginTab">
+        <form data-flow="login">
+          <div class="field">
+            <label for="loginAccount">账号</label>
+            <input id="loginAccount" name="account" type="text" autocomplete="username" placeholder="请输入手机号 / 邮箱 / 机构账号" required>
+          </div>
+          <div class="field">
+            <label for="loginPassword">密码</label>
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="请输入登录密码" required minlength="6">
+          </div>
+          <div class="helper-row">
+            <span>账号由机构管理员分配</span>
+            <button class="text-link" type="button" data-tab="register">没有账号？去注册</button>
+          </div>
+          <button class="submit-btn" type="submit">登录并核验</button>
+          <div class="notice" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <section class="panel" id="registerPanel" role="tabpanel" aria-labelledby="registerTab">
+        <form data-flow="register">
+          <div class="field">
+            <label for="orgName">机构名称</label>
+            <input id="orgName" name="org" type="text" autocomplete="organization" placeholder="请输入机构全称" required>
+          </div>
+          <div class="field">
+            <label for="contact">联系人</label>
+            <input id="contact" name="contact" type="text" autocomplete="name" placeholder="请输入联系人姓名" required>
+          </div>
+          <div class="field">
+            <label for="inviteCode">机构邀请码</label>
+            <input id="inviteCode" name="invite" type="text" inputmode="text" autocomplete="one-time-code" placeholder="请输入机构邀请码" required minlength="4">
+          </div>
+          <div class="helper-row">
+            <span>邀请码用于核验接入资格</span>
+            <button class="text-link" type="button" data-tab="login">已有账号？去登录</button>
+          </div>
+          <button class="submit-btn" type="submit">提交注册申请</button>
+          <div class="notice" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+      const $ = (s, p = document) => p.querySelector(s);
+      const $$ = (s, p = document) => Array.from(p.querySelectorAll(s));
+      const modal = $("#accessModal");
+      const modalTitle = $("#modalTitle");
+      const modalDesc = $("#modalDesc");
+      const tabs = $$(".tab");
+      const panels = $$(".panel");
+      const labels = {
+        login: ["机构账号登录", "请输入已开通的机构账号，系统将核验当前访问权限。"],
+        register: ["机构注册申请", "请填写机构信息与邀请码，提交后进入接入资格审核。"]
+      };
+      const result = {
+        login: ["账号权限待开通", "系统已收到本次访问核验请求。当前账号尚未完成机构管理员授权，暂不能进入业务系统。"],
+        register: ["资格审核中", "注册申请已进入接入资格核验流程。邀请码信息将由平台运营人员复核，审核完成前暂不能使用网站。"]
+      };
+      const serial = () => {
+        const bytes = new Uint8Array(3);
+        if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+        return Array.from(bytes, n => n.toString(16).padStart(2, "0")).join("").toUpperCase();
+      };
+      const setMode = mode => {
+        const next = mode === "register" ? "register" : "login";
+        tabs.forEach(tab => tab.setAttribute("aria-selected", String(tab.dataset.tab === next)));
+        panels.forEach(panel => panel.classList.toggle("is-active", panel.id === `${next}Panel`));
+        modalTitle.textContent = labels[next][0];
+        modalDesc.textContent = labels[next][1];
+        const first = $(`#${next}Panel input`);
+        window.setTimeout(() => first && first.focus(), 80);
+      };
+      const openModal = mode => {
+        setMode(mode);
+        if (typeof modal.showModal === "function") modal.showModal();
+        else modal.setAttribute("open", "");
+      };
+      const closeModal = () => {
+        if (typeof modal.close === "function") modal.close();
+        else modal.removeAttribute("open");
+      };
+      $$("[data-open]").forEach(btn => btn.addEventListener("click", () => openModal(btn.dataset.open)));
+      $$("[data-tab]").forEach(btn => btn.addEventListener("click", () => setMode(btn.dataset.tab)));
+      $$("[data-close]").forEach(btn => btn.addEventListener("click", closeModal));
+      $$("[data-guard]").forEach(link => {
+        link.addEventListener("click", event => {
+          event.preventDefault();
+          openModal("login");
+        });
+      });
+      modal.addEventListener("click", event => {
+        if (event.target === modal) closeModal();
+      });
+      $$("form[data-flow]").forEach(form => {
+        form.addEventListener("submit", event => {
+          event.preventDefault();
+          const notice = $(".notice", form);
+          const submit = $(".submit-btn", form);
+          const flow = form.dataset.flow === "register" ? "register" : "login";
+          if (!form.checkValidity()) {
+            form.classList.remove("shake");
+            void form.offsetWidth;
+            form.classList.add("shake");
+            form.reportValidity();
+            return;
+          }
+          notice.classList.remove("is-visible");
+          submit.disabled = true;
+          submit.textContent = "正在核验...";
+          window.setTimeout(() => {
+            const ticket = `YD-${new Date().getFullYear()}-${serial()}`;
+            submit.disabled = false;
+            submit.textContent = flow === "register" ? "提交注册申请" : "登录并核验";
+            notice.innerHTML = `<strong>${result[flow][0]}</strong>${result[flow][1]}<br>核验编号：${ticket}`;
+            notice.classList.add("is-visible");
+          }, 920 + Math.round(Math.random() * 520));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
